@@ -15,8 +15,25 @@ app.get('/news', (req, res) => {
     res.send(newsData);
 })
 
+app.get('/news/:id', (req, res) => {
+    const id = req.params.id;
+    const selectedNews = newsData.find(n => n._id === id);
+    res.send(selectedNews);
+})
+
 app.get('/categories', (req, res) => {
     res.send(categoryData);
+})
+
+app.get('/categories/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    if(id === 0) {
+        res.send(newsData)
+    }
+    else {
+        const categoryNews = newsData.filter(n => parseInt(n.category.id === id))
+        res.send(categoryNews);
+    }
 })
 
 app.listen(port, ()=> console.log(`dumb server is running on port ${port}`));
